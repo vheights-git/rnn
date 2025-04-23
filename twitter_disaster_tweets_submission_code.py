@@ -972,94 +972,6 @@ def stop_profiler():
     else:
         print("Profiler is not running.")
 
-+-------------------------------------------------------+
-|                    Input Layer                        |
-|             (Shape: (batch_size, MAX_LEN))            |
-+-------------------------------------------------------+
-                       |
-                       v
-+-------------------------------------------------------+
-|                    Embedding Layer                    |
-|   (num_words, 100, weights=embedding_matrix,        |
-|    input_length=MAX_LEN, trainable=False)            |
-+-------------------------------------------------------+
-                       |
-                       v
-+-------------------------------------------------------+
-|               Spatial Dropout 1D (0.5)                |
-+-------------------------------------------------------+
-                       |
-                       v
-+-------------------------------------------------------+
-|                     LSTM Layer                        |
-| (units=256, dropout=0.2, recurrent_dropout=0.4,      |
-|  return_sequences=True)                              |
-+-------------------------------------------------------+
-                       |
-                       v
-+-------------------------------------------------------+
-|                Global Max Pooling 1D                  |
-+-------------------------------------------------------+
-                       |
-                       v
-+-------------------------------------------------------+
-|                Batch Normalization                    |
-+-------------------------------------------------------+
-                       |
-                       v
-+-------------------------------------------------------+
-|             Dense Layer (128, relu)                   |
-+-------------------------------------------------------+
-                       |
-                       v
-+-------------------------------------------------------+
-|                  Dropout (0.2)                        |
-+-------------------------------------------------------+
-                       |
-                       v
-+-------------------------------------------------------+
-|              Dense Layer (64, relu)                   |
-+-------------------------------------------------------+
-                       |
-                       v
-+-------------------------------------------------------+
-|                  Dropout (0.2)                        |
-+-------------------------------------------------------+
-                       |
-                       v
-+-------------------------------------------------------+
-|              Dense Layer (32, relu)                   |
-+-------------------------------------------------------+
-                       |
-                       v
-+-------------------------------------------------------+
-|                  Dropout (0.2)                        |
-+-------------------------------------------------------+
-                       |
-                       v
-+-------------------------------------------------------+
-|                Batch Normalization                    |
-+-------------------------------------------------------+
-                       |
-                       v
-+-------------------------------------------------------+
-|           Output Layer (1, sigmoid)                   |
-+-------------------------------------------------------+
-
-LSTM Layer
-
-Timestep (Word Position)
-    │
-    ├── [Word 1] → [LSTM Unit 1] → h₁¹, c₁¹
-    │               [LSTM Unit 2] → h₁², c₁²
-    │               ...
-    │               [LSTM Unit 100] → h₁¹⁰⁰, c₁¹⁰⁰
-    │
-    ├── [Word 2] → [LSTM Unit 1] → h₂¹, c₂¹
-    │               ...
-    │
-    └── [Word MAX_LEN] → [Final Hidden States hₜ¹...hₜ¹⁰⁰] → Dense Layer
-
 def base_model():
 
     model = keras.Sequential()
@@ -1111,14 +1023,14 @@ base_model_lstm.summary()
 # # Start the profiler
 # # start_profiler('histopathologic-cancer-detection/logdir')
 # # Training from epoch 1st to epoch 7th
-# base_model_lstm_history = base_model_lstm.fit(
-#     X_train,y_train,
-#     batch_size=256,
-#     epochs = 20,
-#     validation_data = (X_val,y_val),
-#     verbose = 1,
-#     callbacks=[checkpoint_epoch_save, checkpoint_learning_rate, early_stopping]
-# )
+base_model_lstm_history = base_model_lstm.fit(
+     X_train,y_train,
+     batch_size=256,
+     epochs = 20,
+     validation_data = (X_val,y_val),
+     verbose = 1,
+     callbacks=[checkpoint_epoch_save, checkpoint_learning_rate, early_stopping]
+)
 # 
 # # Check and stop the profiler
 # # stop_profiler()
@@ -1305,15 +1217,15 @@ base_model_lstm_RMSProp.compile(loss='binary_crossentropy',optimizer = opt, metr
 # KBackend.clear_session()
 # # Start the profiler
 # # start_profiler('histopathologic-cancer-detection/logdir')
-# # Training from epoch 1st to epoch 10th
-# base_model_lstm_RMSProp_history = base_model_lstm_RMSProp.fit(
-#     X_train,y_train,
-#     batch_size=256,
-#     epochs = 50,
-#     validation_data = (X_val,y_val),
-#     verbose = 1,
-#     callbacks=[checkpoint_epoch_save, checkpoint_learning_rate, early_stopping]
-# )
+# Training from epoch 1st to epoch 10th
+ base_model_lstm_RMSProp_history = base_model_lstm_RMSProp.fit(
+     X_train,y_train,
+     batch_size=256,
+     epochs = 50,
+     validation_data = (X_val,y_val),
+     verbose = 1,
+     callbacks=[checkpoint_epoch_save, checkpoint_learning_rate, early_stopping]
+ )
 # 
 # # Check and stop the profiler
 # # stop_profiler()
@@ -1465,14 +1377,14 @@ impr_model_lstm.summary()
 # # Start the profiler
 # # start_profiler('histopathologic-cancer-detection/logdir')
 # 
-# impr_model_lstm_history = impr_model_lstm.fit(
-#     X_train,y_train,
-#     batch_size=256,
-#     epochs = 50,
-#     validation_data = (X_val,y_val),
-#     verbose = 1,
-#     callbacks=[checkpoint_epoch_save, checkpoint_learning_rate, early_stopping]
-# )
+impr_model_lstm_history = impr_model_lstm.fit(
+     X_train,y_train,
+     batch_size=256,
+     epochs = 50,
+     validation_data = (X_val,y_val),
+     verbose = 1,
+     callbacks=[checkpoint_epoch_save, checkpoint_learning_rate, early_stopping]
+ )
 # 
 # # Check and stop the profiler
 # # stop_profiler()
